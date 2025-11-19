@@ -1,0 +1,259 @@
+CÓDIGO FONTE
+
+html- 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COM-PC</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header>
+    <h1>COM-PC</h1>
+
+    <nav>
+        <ul id="menuTopo">
+            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<main>
+
+    <section id="produtos" class="bloco">
+        <h2>Produtos em Destaque</h2>
+
+        <div class="lista-produtos">
+
+            <div class="box-produto">
+                <img src="https://m.media-amazon.com/images/I/61jN35sc4jS._AC_UF894,1000_QL80_.jpg" alt="RTX 3060">
+                <h3>Placa de Vídeo RTX 3060 12GB</h3>
+                <p>R$ 1.499,90</p>
+                <button onclick="addItemCarrinho('RTX 3060 12GB')">Adicionar</button>
+            </div>
+
+            <div class="box-produto">
+                <img src="https://patoloco.com.br/resize/imagecache/3bcb494b96b955ae124b91e40411dcca.jpeg" alt="Ryzen 7">
+                <h3>Processador Ryzen 7</h3>
+                <p>R$ 2.000,00</p>
+                <button onclick="addItemCarrinho('Ryzen 7')">Adicionar</button>
+            </div>
+
+            <div class="box-produto">
+                <img src="https://images.kabum.com.br/produtos/fotos/105106/ssd-rise-mode-gamer-line-480gb-sata-iii-leitura-530mb-s-gravacao-520mb-s-preto-rm-ssd-480_1744634673_gg.jpg" alt="SSD">
+                <h3>SSD 480GB RiseMode</h3>
+                <p>R$ 499,00</p>
+                <button onclick="addItemCarrinho('SSD 480GB')">Adicionar</button>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="sobre" class="bloco">
+        <h2>Sobre a Loja</h2>
+        <p>
+            Vendemos peças de computador com preços acessíveis. 
+            Nosso objetivo é agilizar sua compra e trazer as melhores marcas!
+        </p>
+    </section>
+
+
+    <section id="contato" class="bloco">
+        <h2>Entre em Contato</h2>
+
+        <form id="formContato" onsubmit="return checarForm()">
+
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email">
+
+            <label for="assunto">Assunto:</label>
+            <select id="assunto">
+                <option value="">Selecione</option>
+                <option>Dúvida</option>
+                <option>Orçamento</option>
+                <option>Feedback</option>
+                <option>Suporte</option>
+            </select>
+
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem"></textarea>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+
+    <section class="bloco">
+        <h2>Carrinho</h2>
+        <ul id="carrinhoLista"></ul>
+    </section>
+
+</main>
+
+
+<footer>
+    <p>© 2025 - COM-PC | Brasília - DF</p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+CSS-
+
+
+body {
+    margin: 0;
+    background: #eee;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #222;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+#menuTopo {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+#menuTopo a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#menuTopo a:hover {
+    color: #3ad1ff;
+}
+
+.bloco {
+    padding: 35px;
+}
+
+.lista-produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.box-produto {
+    background: #fff;
+    padding: 18px;
+    border-radius: 8px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.25);
+}
+
+.box-produto img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    background: #222;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+button:hover {
+    background: #3ad1ff;
+    color: #000;
+}
+
+form {
+    max-width: 450px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+footer {
+    background: #222;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+
+js-
+
+let itensCarrinho = [];
+
+
+function addItemCarrinho(produto) {
+    itensCarrinho.push(produto);
+    mostrarCarrinho();
+}
+
+
+function mostrarCarrinho() {
+    const ul = document.getElementById("carrinhoLista");
+    ul.innerHTML = "";
+
+    for (let i = 0; i < itensCarrinho.length; i++) {
+        let li = document.createElement("li");
+        li.textContent = itensCarrinho[i];
+
+        let btn = document.createElement("button");
+        btn.textContent = "X";
+        btn.style.marginLeft = "10px";
+
+        btn.onclick = () => {
+            itensCarrinho.splice(i, 1);
+            mostrarCarrinho();
+        };
+
+        li.appendChild(btn);
+        ul.appendChild(li);
+    }
+}
+
+
+function checarForm() {
+    let nome = document.getElementById("nome").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let assunto = document.getElementById("assunto").value;
+
+    if (nome.length < 2) {
+        alert("Nome muito curto.");
+        return false;
+    }
+
+    if (email === "" || !email.includes("@")) {
+        alert("Email inválido.");
+        return false;
+    }
+
+    if (assunto === "") {
+        alert("Escolha um assunto antes de enviar.");
+        return false;
+    }
+
+    alert("Mensagem enviada!");
+    return true;
+}
